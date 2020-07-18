@@ -1,0 +1,54 @@
+ 
+
+:DESIGN:
+- change header desig
+- make battery look good
+- change texas instruments font
+
+ 
+:FUNCTIONALITY:
+- equals button should clear current equation on number input, but continues
+  equation on operator input
+
+- if minus is pressed before button, the next number entered is negative
+
+- memory buttons
+
+:IDEAS:
+- make two other iconic calculators that can will be displayed a
+- create a function that creates specified EventListeners to specified
+  elements
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
