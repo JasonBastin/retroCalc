@@ -22,8 +22,9 @@
   let result;
   let showingAnswer = false;
 
-  // If num is larger than 8 digits and between -1 & 1,
-  // round to 8 decimal places. Else make exponential notation.
+  // If num is larger than 6 digits and between -1 & 1,
+  // round to 7 decimal places. Else make exponential notation
+  // rounded to 5 digits.
   const numberFitToDisplay = (num) => {
     let numLength = `${num}`.length;
     if (num < 1 && num > -1 && numLength > 6) {
@@ -39,12 +40,18 @@
   NUMBER_BUTTONS.forEach((numBtn) =>
     numBtn.addEventListener("mousedown", (e) => {
       let buttonValue = e.target.innerHTML;
+
+      // If the display is showing an answer, a button
+      // press will clear the display and start a new eqaution
       if (showingAnswer) {
         displayValue = "";
         currentEquation = "";
         showingAnswer = false;
       }
 
+      // If the current equation ends with an operator,
+      // a button press will display the button value and add it to
+      // the current equation
       if (currentEquation.match(/([+\-x%÷]\s)$/)) {
         displayValue = "";
       }
@@ -57,15 +64,12 @@
   // Operator buttons functionality
   OPERATOR_BUTTONS.forEach((opBtn) =>
     opBtn.addEventListener("mousedown", (e) => {
+      showingAnswer = false;
+      let buttonValue = e.target.innerHTML;
       // if (e.target.id === "subtract-btn") {
       //   console.log(currentEquation);
       // }
-      console.log(currentEquation);
-      if (showingAnswer) {
-      } else {
-        let buttonValue = e.target.innerHTML;
-        currentEquation += " " + buttonValue + " ";
-      }
+      currentEquation += " " + buttonValue + " ";
     })
   );
 
@@ -99,7 +103,7 @@
 
   // Absolute button functionality
   ABSOLUTE_BUTTON.addEventListener("mousedown", (e) => {
-    DISPLAY.innerHTML = Math.abs(eval(currentEquation));
+    DISPLAY.innerHTML = numberFitToDisplay(Math.abs(eval(currentEquation)));
   });
 
   // Squareroot button functionality
@@ -116,9 +120,8 @@
 
   // Memory plus button functionality
   MEMORY_PLUS_BUTTON.addEventListener("mousedown", (e) => {
-    console.log(typeof +displayValue);
+    console.log(displayValue);
     memory += +displayValue;
-    console.log(memory);
   });
 
   // Memory clear button functionality
@@ -127,9 +130,9 @@
       DISPLAY.innerHTML = memory;
       currentEquation = "";
       currentEquation = `${memory}`;
-      console.log(currentEquation, memory);
     } else if (e.detail == 2) {
       memory = 0;
+      DISPLAY.innerHTML = memory;
     }
   });
 })();
