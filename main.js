@@ -90,6 +90,7 @@
       })
       .join("");
     result = eval(result);
+    displayValue = result;
     DISPLAY.innerHTML = numberFitToDisplay(result);
     showingAnswer = true;
   });
@@ -103,6 +104,8 @@
 
   // Absolute button functionality
   ABSOLUTE_BUTTON.addEventListener("mousedown", (e) => {
+    let absValue = Math.abs(eval(currentEquation));
+    console.log(absValue);
     DISPLAY.innerHTML = numberFitToDisplay(Math.abs(eval(currentEquation)));
   });
 
