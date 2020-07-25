@@ -18,6 +18,7 @@
   // Stored Values
   let displayValue = "";
   let currentEquation = "";
+  let currentOperation = "";
   let memory = 0;
   let result;
   let showingAnswer = false;
@@ -41,7 +42,6 @@
     numBtn.addEventListener("mousedown", (e) => {
       let buttonValue = e.target.innerHTML;
 
-      // If the display is showing an answer, a button
       // press will clear the display and start a new eqaution
       if (showingAnswer) {
         displayValue = "";
@@ -75,6 +75,11 @@
 
   // Equals functionality
   EQUALS_BUTTON.addEventListener("mousedown", (e) => {
+    currentOperation = currentEquation.slice(-4);
+    if (showingAnswer) {
+      currentEquation += currentOperation;
+    }
+
     result = currentEquation
       .split(" ")
       .map((x) => {
@@ -91,7 +96,7 @@
       .join("");
     result = eval(result);
     displayValue = result;
-    DISPLAY.innerHTML = numberFitToDisplay(result);
+    DISPLAY.innerHTML = numberFitToDisplay(displayValue);
     showingAnswer = true;
   });
 
