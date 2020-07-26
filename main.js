@@ -23,6 +23,13 @@
   let result;
   let showingAnswer = false;
 
+  // Custom eval() function to avoid security issues
+  const customEval = (str) => {
+    return new Function(`return (${str})`)();
+  };
+
+  console.log(customEval("4+4"));
+
   // If num is larger than 6 digits and between -1 & 1,
   // round to 7 decimal places. Else make exponential notation
   // rounded to 5 digits.
@@ -91,7 +98,7 @@
         }
       })
       .join("");
-    result = eval(result);
+    result = customEval(result);
     displayValue = result;
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
   };
@@ -100,7 +107,7 @@
 
   // Equals functionality
   EQUALS_BUTTON.addEventListener("mousedown", (e) => {
-    let operators = currentEquation.match(/[+\-x÷]/g);
+    let operators = currentEquation.match(/[+\-*/]/g);
     let lastOperator = operators[operators.length - 1];
     currentOperation = currentEquation.slice(
       currentEquation.lastIndexOf(lastOperator)
@@ -122,8 +129,10 @@
 
   // Absolute button functionality
   ABSOLUTE_BUTTON.addEventListener("mousedown", (e) => {
-    let absValue = Math.abs(eval(currentEquation));
-    DISPLAY.innerHTML = numberFitToDisplay(Math.abs(eval(currentEquation)));
+    let absValue = Math.abs(customEval(currentEquation));
+    DISPLAY.innerHTML = numberFitToDisplay(
+      Math.abs(customEval(currentEquation))
+    );
   });
 
   // Squareroot button functionality
