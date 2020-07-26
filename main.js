@@ -69,17 +69,13 @@
       // if (e.target.id === "subtract-btn") {
       //   console.log(currentEquation);
       // }
+      getResult();
       currentEquation += " " + buttonValue + " ";
     })
   );
 
-  // Equals functionality
-  EQUALS_BUTTON.addEventListener("mousedown", (e) => {
-    currentOperation = currentEquation.slice(-4);
-    if (showingAnswer) {
-      currentEquation += currentOperation;
-    }
-
+  // Calculate and display result
+  const getResult = () => {
     result = currentEquation
       .split(" ")
       .map((x) => {
@@ -97,6 +93,16 @@
     result = eval(result);
     displayValue = result;
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
+  };
+
+  // Equals functionality
+  EQUALS_BUTTON.addEventListener("mousedown", (e) => {
+    currentOperation = currentEquation.slice(-4);
+    if (showingAnswer) {
+      currentEquation += currentOperation;
+    }
+
+    getResult();
     showingAnswer = true;
   });
 
@@ -110,7 +116,6 @@
   // Absolute button functionality
   ABSOLUTE_BUTTON.addEventListener("mousedown", (e) => {
     let absValue = Math.abs(eval(currentEquation));
-    console.log(absValue);
     DISPLAY.innerHTML = numberFitToDisplay(Math.abs(eval(currentEquation)));
   });
 
@@ -121,14 +126,11 @@
 
   // Memory minus button functionality
   MEMORY_MINUS_BUTTON.addEventListener("mousedown", (e) => {
-    console.log(typeof +displayValue);
     memory -= +displayValue;
-    console.log(memory);
   });
 
   // Memory plus button functionality
   MEMORY_PLUS_BUTTON.addEventListener("mousedown", (e) => {
-    console.log(displayValue);
     memory += +displayValue;
   });
 
