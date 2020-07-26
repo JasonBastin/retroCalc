@@ -66,7 +66,8 @@
     opBtn.addEventListener("mousedown", (e) => {
       showingAnswer = false;
       let buttonValue = e.target.innerHTML;
-      // if (e.target.id === "subtract-btn") {
+      // if (e.target.id === "subtract-btn" && currentEquation === "") {
+      //   currentEquation = "-";
       //   console.log(currentEquation);
       // }
       getResult();
@@ -95,9 +96,15 @@
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
   };
 
+  // Index of last operation
+
   // Equals functionality
   EQUALS_BUTTON.addEventListener("mousedown", (e) => {
-    currentOperation = currentEquation.slice(-4);
+    let operators = currentEquation.match(/[+\-x÷]/g);
+    let lastOperator = operators[operators.length - 1];
+    currentOperation = currentEquation.slice(
+      currentEquation.lastIndexOf(lastOperator)
+    );
     if (showingAnswer) {
       currentEquation += currentOperation;
     }
