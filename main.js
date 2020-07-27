@@ -28,8 +28,6 @@
     return new Function(`return (${str})`)();
   };
 
-  console.log(customEval("4+4"));
-
   // If num is larger than 6 digits and between -1 & 1,
   // round to 7 decimal places. Else make exponential notation
   // rounded to 5 digits.
@@ -103,19 +101,21 @@
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
   };
 
-  // Index of last operation
-
-  // Equals functionality
-  EQUALS_BUTTON.addEventListener("mousedown", (e) => {
-    let operators = currentEquation.match(/[+\-*/]/g);
+  // Save last operation for reuse when equals is pressed multiple times
+  const lastOperation = () => {
+    let operators = currentEquation.match(/[+\-x÷]/g);
     let lastOperator = operators[operators.length - 1];
     currentOperation = currentEquation.slice(
       currentEquation.lastIndexOf(lastOperator)
     );
-    if (showingAnswer) {
-      currentEquation += currentOperation;
-    }
+  };
 
+  // Equals functionality
+  EQUALS_BUTTON.addEventListener("mousedown", (e) => {
+    lastOperation();
+    if (showingAnswer) {
+      currentEquation = `(${currentEquation}) ${currentOperation}`;
+    }
     getResult();
     showingAnswer = true;
   });
@@ -129,7 +129,6 @@
 
   // Absolute button functionality
   ABSOLUTE_BUTTON.addEventListener("mousedown", (e) => {
-    let absValue = Math.abs(customEval(currentEquation));
     DISPLAY.innerHTML = numberFitToDisplay(
       Math.abs(customEval(currentEquation))
     );
@@ -137,7 +136,8 @@
 
   // Squareroot button functionality
   SQUAREROOT_BUTTON.addEventListener("mousedown", (e) => {
-    DISPLAY.innerHTML = numberFitToDisplay(Math.sqrt(displayValue));
+    displayValue = numberFitToDisplay(Math.sqrt(displayValue));
+    DISPLAY.innerHTML = displayValue;
   });
 
   // Memory minus button functionality
