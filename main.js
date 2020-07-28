@@ -22,6 +22,7 @@
   let memory = 0;
   let result;
   let showingAnswer = false;
+  let negativeNumber = false;
 
   // Custom eval() function to avoid security issues
   const customEval = (str) => {
@@ -45,7 +46,7 @@
   // Number buttons functionality
   NUMBER_BUTTONS.forEach((numBtn) =>
     numBtn.addEventListener("mousedown", (e) => {
-      let buttonValue = e.target.innerHTML;
+      let number = e.target.innerHTML;
 
       // press will clear the display and start a new eqaution
       if (showingAnswer) {
@@ -60,8 +61,14 @@
       if (currentEquation.match(/([+\-x%÷]\s)$/)) {
         displayValue = "";
       }
-      displayValue += buttonValue;
-      currentEquation += buttonValue;
+
+      if (negativeNumber) {
+        displayValue += `-${number}`;
+        negativeNumber = false;
+      } else {
+        displayValue += number;
+      }
+      currentEquation += number;
       DISPLAY.innerHTML = displayValue;
     })
   );
@@ -70,13 +77,12 @@
   OPERATOR_BUTTONS.forEach((opBtn) =>
     opBtn.addEventListener("mousedown", (e) => {
       showingAnswer = false;
-      let buttonValue = e.target.innerHTML;
-      // if (e.target.id === "subtract-btn" && currentEquation === "") {
-      //   currentEquation = "-";
-      //   console.log(currentEquation);
-      // }
+      let operator = e.target.innerHTML;
+      if (operator === "-" && currentEquation === "") {
+        negativeNumber = true;
+      }
       getResult();
-      currentEquation += " " + buttonValue + " ";
+      currentEquation = `(${currentEquation}) ${operator} `;
     })
   );
 
@@ -99,6 +105,7 @@
     result = customEval(result);
     displayValue = result;
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
+    console.log(currentEquation);
   };
 
   // Save last operation for reuse when equals is pressed multiple times
