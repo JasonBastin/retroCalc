@@ -1,4 +1,3 @@
-//BRANCH TEST
 (function () {
   // Button queries
   const NUMBER_BUTTONS = document.querySelectorAll(".number-btn");
