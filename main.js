@@ -88,7 +88,6 @@
       } else {
         getResult();
         currentEquation = `(${currentEquation}) ${operator} `;
-        console.log(currentEquation);
       }
     })
   );
@@ -112,7 +111,6 @@
     result = customEval(result);
     displayValue = result;
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
-    console.log(currentEquation);
   };
 
   // Save last operation for reuse when equals is pressed multiple times
@@ -168,8 +166,9 @@
   MEMORY_RECALL_CLEAR_BUTTON.addEventListener("mousedown", (e) => {
     if (e.detail == 1) {
       DISPLAY.innerHTML = memory;
-      currentEquation = "";
-      currentEquation = `${memory}`;
+      // currentEquation = "";
+      currentEquation += `${memory}`;
+      console.log(currentEquation);
     } else if (e.detail == 2) {
       memory = 0;
       DISPLAY.innerHTML = memory;
