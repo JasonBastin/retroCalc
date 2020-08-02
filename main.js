@@ -1,3 +1,4 @@
+//BRANCH TEST
 (function () {
   // Button queries
   const NUMBER_BUTTONS = document.querySelectorAll(".number-btn");
@@ -63,7 +64,7 @@
       }
 
       if (negativeNumber) {
-        displayValue += `-${number}`;
+        displayValue = `-${number}`;
         negativeNumber = false;
       } else {
         displayValue += number;
@@ -78,11 +79,18 @@
     opBtn.addEventListener("mousedown", (e) => {
       showingAnswer = false;
       let operator = e.target.innerHTML;
-      if (operator === "-" && currentEquation === "") {
+      if (
+        (operator === "-" && currentEquation === "") ||
+        (operator === "-" && currentEquation.match(/([+\-x%÷]\s)$/))
+      ) {
         negativeNumber = true;
+        currentEquation += operator;
+        getResult();
+      } else {
+        getResult();
+        currentEquation = `(${currentEquation}) ${operator} `;
+        console.log(currentEquation);
       }
-      getResult();
-      currentEquation = `(${currentEquation}) ${operator} `;
     })
   );
 
