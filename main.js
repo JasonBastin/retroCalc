@@ -34,13 +34,18 @@
   // rounded to 5 digits.
   const numberFitToDisplay = (num) => {
     let numLength = `${num}`.length;
-    if (num < 1 && num > -1 && numLength > 6) {
-      return num.toFixed(7);
-    } else if (numLength > 6) {
-      return num.toPrecision(5);
-    } else {
-      return num;
+    if (numLength > 8) {
+      num = num.toPrecision(5);
     }
+    console.log(num, numLength);
+    return num;
+    // if (num < 1 && num > -1 && numLength > 6) {
+    //   return num.toFixed(7);
+    // } else if (numLength > 6) {
+    //   return num.toPrecision(5);
+    // } else {
+    //   return num;
+    // }
   };
 
   // Number buttons functionality
@@ -113,14 +118,14 @@
     DISPLAY.innerHTML = numberFitToDisplay(displayValue);
   };
 
-  // Save last operation for reuse when equals is pressed multiple times
-  const lastOperation = () => {
+  // Save current operation for reuse when equals is pressed multiple times
+  const getCurrentOperation = () => {
     let operators = currentEquation.match(/[+\-x÷]/g);
     let lastOperator = operators[operators.length - 1];
-    let negativeOperator = operators[operators.length - 2];
+    let negativeNumOperator = operators[operators.length - 2];
     if (lastOperator === "-") {
       currentOperation = currentEquation.slice(
-        currentEquation.lastIndexOf(negativeOperator)
+        currentEquation.lastIndexOf(negativeNumOperator)
       );
     } else {
       currentOperation = currentEquation.slice(
@@ -131,7 +136,7 @@
 
   // Equals functionality
   EQUALS_BUTTON.addEventListener("mousedown", (e) => {
-    lastOperation();
+    getCurrentOperation();
     if (showingAnswer) {
       currentEquation = `(${currentEquation}) ${currentOperation}`;
     }
