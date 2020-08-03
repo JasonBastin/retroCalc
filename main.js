@@ -1,5 +1,3 @@
-// syds code goes here
-
 (function () {
   // Button queries
   const NUMBER_BUTTONS = document.querySelectorAll(".number-btn");
@@ -119,9 +117,16 @@
   const lastOperation = () => {
     let operators = currentEquation.match(/[+\-x÷]/g);
     let lastOperator = operators[operators.length - 1];
-    currentOperation = currentEquation.slice(
-      currentEquation.lastIndexOf(lastOperator)
-    );
+    let negativeOperator = operators[operators.length - 2];
+    if (lastOperator === "-") {
+      currentOperation = currentEquation.slice(
+        currentEquation.lastIndexOf(negativeOperator)
+      );
+    } else {
+      currentOperation = currentEquation.slice(
+        currentEquation.lastIndexOf(lastOperator)
+      );
+    }
   };
 
   // Equals functionality
