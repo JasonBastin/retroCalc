@@ -1,5 +1,5 @@
 (function () {
-  // Button queries
+  // Button Queries
   const NUMBER_BUTTONS = document.querySelectorAll(".number-btn");
   const OPERATOR_BUTTONS = document.querySelectorAll(".operator-btn");
   const MEMORY_RECALL_CLEAR_BUTTON = document.querySelector(
@@ -12,7 +12,7 @@
   const CLEAR_BUTTON = document.querySelector("#clear-btn");
   const EQUALS_BUTTON = document.querySelector("#equals-btn");
 
-  // Screen query
+  // Screen Query
   const DISPLAY = document.querySelector("#display");
 
   // Stored Values
@@ -29,31 +29,21 @@
     return new Function(`return (${str})`)();
   };
 
-  // If num is larger than 6 digits and between -1 & 1,
-  // round to 7 decimal places. Else make exponential notation
-  // rounded to 5 digits.
+  // If the number to be displayed is larger that 8,
+  // convert to exponential form with 5 decimal placesi
   const numberFitToDisplay = (num) => {
     let numLength = `${num}`.length;
     if (numLength > 8) {
       num = num.toPrecision(5);
     }
-    console.log(num, numLength);
     return num;
-    // if (num < 1 && num > -1 && numLength > 6) {
-    //   return num.toFixed(7);
-    // } else if (numLength > 6) {
-    //   return num.toPrecision(5);
-    // } else {
-    //   return num;
-    // }
   };
 
   // Number buttons functionality
   NUMBER_BUTTONS.forEach((numBtn) =>
     numBtn.addEventListener("mousedown", (e) => {
-      let number = e.target.innerHTML;
+      let num = e.target.innerHTML;
 
-      // press will clear the display and start a new eqaution
       if (showingAnswer) {
         displayValue = "";
         currentEquation = "";
@@ -61,20 +51,23 @@
       }
 
       // If the current equation ends with an operator,
-      // a button press will display the button value and add it to
-      // the current equation
+      // a button press will display the button value
       if (currentEquation.match(/([+\-x%÷]\s)$/)) {
         displayValue = "";
       }
 
-      if (negativeNumber) {
-        displayValue = `-${number}`;
-        negativeNumber = false;
-      } else {
-        displayValue += number;
+      if (displayValue.length < 8) {
+        if (negativeNumber) {
+          displayValue = `-${num}`;
+          negativeNumber = false;
+        } else {
+          displayValue += num;
+        }
+
+        currentEquation += num;
+        console.log(displayValue.length);
+        DISPLAY.innerHTML = displayValue;
       }
-      currentEquation += number;
-      DISPLAY.innerHTML = displayValue;
     })
   );
 
@@ -178,9 +171,7 @@
   MEMORY_RECALL_CLEAR_BUTTON.addEventListener("mousedown", (e) => {
     if (e.detail == 1) {
       DISPLAY.innerHTML = memory;
-      // currentEquation = "";
       currentEquation += `${memory}`;
-      console.log(currentEquation);
     } else if (e.detail == 2) {
       memory = 0;
       DISPLAY.innerHTML = memory;
