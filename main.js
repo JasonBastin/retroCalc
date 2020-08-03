@@ -32,10 +32,14 @@
   // If the number to be displayed is larger that 8,
   // convert to exponential form with 5 decimal placesi
   const numberFitToDisplay = (num) => {
-    let numLength = `${num}`.length;
-    if (numLength > 8) {
-      num = num.toPrecision(5);
+    if (num >= 10 ** 100) {
+      return num.toPrecision(3);
+    } else if (num >= 10 ** 20) {
+      return num.toPrecision(4);
+    } else if (num >= 10 ** 8) {
+      return num.toPrecision(5);
     }
+
     return num;
   };
 
