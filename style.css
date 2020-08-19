@@ -197,9 +197,15 @@ body {
 
 #right-arrow {
   position: absolute;
-  left: 90%;
-  bottom: 45%;
+  left: 80vw;
+  bottom: 40%;
   transform: scale(4);
   color: rgba(255, 255, 255, 0.639);
-  text-shadow: 0.5px 0.5px 0px white;
+  text-shadow: 0.3px 0.3px 0px white;
+  cursor: pointer;
+}
+
+#right-arrow:hover {
+  transform: scale(4) translateX(5%);
+  opacity: 0.8;
 }
